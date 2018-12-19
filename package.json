@@ -10,6 +10,7 @@
     "@applitools/eyes-sdk-core": "^4.5.4",
     "http-proxy-agent": "^2.1.0",
     "https-proxy-agent": "^2.2.1",
-    "node-fetch": "^2.3.0"
+    "node-fetch": "^2.3.0",
+    "request": "^2.88.0"
   }
 }

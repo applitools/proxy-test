@@ -4,9 +4,6 @@ const endpoint = process.argv[2];
 const apiKey = process.argv[3];
 const proxy = process.argv[4];
 
-
-console.log(proxy === 'false');
-
 let proxyToUse;
 if (proxy && (proxy !== 'false')) {
   const {hostname, port, protocol} = url.parse(proxy);
