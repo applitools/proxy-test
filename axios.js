@@ -4,7 +4,7 @@ const endpoint = process.argv[2];
 const apiKey = process.argv[3];
 const proxy = process.argv[4];
 
-let proxyToUse;
+let proxyToUse, httpAgent;
 if (proxy && (proxy !== 'false')) {
   const {hostname, port, protocol} = url.parse(proxy);
   proxyToUse = {
@@ -12,6 +12,9 @@ if (proxy && (proxy !== 'false')) {
     port,
     protocol
   };
+  httpAgent = new require('http').Agent({  
+    rejectUnauthorized: false
+  });
 } else {
   proxyToUse = false;
 }
@@ -32,6 +35,7 @@ console.log('proxy:', proxyToUse === false ? 'no proxy' : proxy);
         'Content-Type': 'application/json',
       },
       responseType: 'json',
+      httpAgent,
       transport: proxyToUse ? require('http') : undefined // patch
     });
   

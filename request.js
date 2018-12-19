@@ -22,6 +22,7 @@ const resp = request({
   proxy: proxyToUse,
   method: 'GET',
   uri: endpoint,
+  // strictSSL: false
 }, (err, resp, body) => {
   if (err) {
     console.log('err', err.message);

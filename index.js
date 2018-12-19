@@ -13,8 +13,12 @@ var proxy = process.argv[3];
 console.log('using proxy server %j', proxy);
 
 // create an instance of the `HttpProxyAgent` class with the proxy server information
-var agent = new HttpsProxyAgent(proxy);
-opts.agent = agent;
+if (proxy) {
+  var agent = new HttpsProxyAgent(proxy);
+  opts.agent = agent;
+}
+
+opts.rejectUnauthorized = false;
 
 https.get(opts, function (res) {
   console.log('"response" event!', res.headers);
