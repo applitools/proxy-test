@@ -1,10 +1,11 @@
+'use strict';
 const axios = require('axios');
 const url = require('url');
 const endpoint = process.argv[2];
 const apiKey = process.argv[3];
 const proxy = process.argv[4];
 
-let proxyToUse, httpAgent;
+let proxyToUse, httpsAgent, transport;
 if (proxy && (proxy !== 'false')) {
   const {hostname, port, protocol} = url.parse(proxy);
   proxyToUse = {
@@ -12,11 +13,15 @@ if (proxy && (proxy !== 'false')) {
     port,
     protocol
   };
-  httpAgent = new require('http').Agent({  
+  httpsAgent = new require('http').Agent({  
     rejectUnauthorized: false
   });
+  transport = require('http');
 } else {
   proxyToUse = false;
+  httpsAgent = new require('https').Agent({  
+    rejectUnauthorized: false
+  });
 }
 
 console.log('url:', endpoint);
@@ -35,8 +40,8 @@ console.log('proxy:', proxyToUse === false ? 'no proxy' : proxy);
         'Content-Type': 'application/json',
       },
       responseType: 'json',
-      httpAgent,
-      transport: proxyToUse ? require('http') : undefined // patch
+      httpsAgent,
+      transport // patch
     });
   
     console.log(resp.data);
