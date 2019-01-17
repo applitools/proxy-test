@@ -8,6 +8,7 @@
   "license": "ISC",
   "dependencies": {
     "@applitools/eyes-sdk-core": "^4.5.4",
+    "eyes.selenium": "0.0.83",
     "http-proxy-agent": "^2.1.0",
     "https-proxy-agent": "^2.2.1",
     "node-fetch": "^2.3.0",

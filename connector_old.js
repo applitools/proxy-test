@@ -1,4 +1,5 @@
-const {ServerConnector, PromiseFactory, Logger, ConsoleLogHandler} = require('eyes.sdk');
+const {ServerConnector, Logger, ConsoleLogHandler} = require('eyes.sdk');
+const {PromiseFactory} = require('eyes.utils');
 const url = require('url');
 
 const serverUrl = process.argv[2];
@@ -13,7 +14,9 @@ console.log('proxy:', proxyToUse === false ? 'no proxy' : proxy);
 
 const logger = new Logger();
 logger.setLogHandler(new ConsoleLogHandler(true));
-const serverConnector = new ServerConnector(new PromiseFactory(), serverUrl, logger);
+const serverConnector = new ServerConnector(new PromiseFactory(function (asyncAction) {
+  return new Promise(asyncAction);
+}, undefined), serverUrl, logger);
 serverConnector.setApiKey(apiKey);
 serverConnector.setProxy(proxyToUse);
 
@@ -21,7 +24,8 @@ serverConnector.setProxy(proxyToUse);
   try {
     const res = await serverConnector.startSession({
       agentId: 'some_agentid',
-      appIdOrName: 'some_app'
+      appIdOrName: 'some_app',
+      scenarioIdOrName: 'some_scenario'
     });
     console.log('res', res);
   } catch(err) {
